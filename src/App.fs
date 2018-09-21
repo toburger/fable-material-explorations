@@ -7,7 +7,6 @@ open Fable.Import.React
 open Fable.MaterialUI.Themes
 open Fable.Core.JsInterop
 open Fable.Core
-open Fable.Helpers.React
 open Fable.Helpers.React.Props
 open Fable.Import.React
 
@@ -16,6 +15,28 @@ importSideEffects "./App.css"
 module R = Fable.Helpers.React
 module Mui = Fable.Helpers.MaterialUI
 module Colors = Fable.MaterialUI.Colors
+
+type [<StringEnum>] [<RequireQualifiedAccess>] AxisType =
+    | X
+    | [<CompiledName "x-reverse">] XReverse
+    | Y
+    | [<CompiledName "y-reverse">] YReverse
+
+type SwitchType = Move | End
+
+type SwipeableViewsProps =
+    | Axis of AxisType
+    | Index of int
+    | AnimateTransitions of bool
+    | Disabled of bool
+    | EnableMouseEvents of bool
+    | Resistance of bool
+    | OnChangeIndex of ((int * int) -> unit)
+    | OnSwitching of ((int * SwitchType) -> unit)
+    | OnTransitionEnd of (unit -> unit)
+
+let swipeableViews (props: SwipeableViewsProps list) children =
+    R.ofImport "default" "react-swipeable-views" (keyValueList CaseRules.LowerFirst props) children
 
 let toObj = keyValueList CaseRules.LowerFirst
 
@@ -240,7 +261,13 @@ minutes more. (Discard any mussels that don’t open.)""")
 let tabContainer children =
     Mui.typography [
         MaterialProp.Component (ReactType.Case1 "div")
-        Style [ Padding (8*3) ]
+        Style [
+            Padding (8*3)
+            AlignItems "center"
+            JustifyContent "center"
+            FlexDirection "column"
+            Display "flex"
+        ]
     ] children
 
 let viewAppBar (props: RootProps) =
@@ -298,7 +325,7 @@ let cellWithTooltip props content =
     ]
 
 let viewTable classes allFoodsSelected selectedFoods foods dispatch =
-    Mui.paper [] [
+    Mui.paper [ Style [ Width "100%" ] ] [
         Mui.toolbar [
             R.classList [ !!classes?highlight, not (Set.isEmpty selectedFoods)]
         ] [
@@ -376,22 +403,28 @@ let rootView (props: RootProps) =
     let classes = props?classes
     R.div [ Class !!classes?root ] [
         viewAppBar props
-        (match props.model.activeView with
-         | TableView ->
+        swipeableViews [
+            Axis AxisType.X
+            Index props.model.activeView.index
+        ] [
             tabContainer [
-                viewTable
-                    classes
-                    props.model.allFoodsSelected
+                Elmish.React.Common.lazyView3
+                    (viewTable classes props.model.allFoodsSelected)
                     props.model.selectedFoods
                     props.model.foods
                     props.dispatch
             ]
-         | CardView ->
             tabContainer [
-                viewCard props
-            ])
+                Elmish.React.Common.lazyViewWith
+                    (fun (a: RootProps) b ->
+                        a.model.expanded = b.model.expanded &&
+                        a.model.showMedia = b.model.showMedia &&
+                        a.model.text = b.model.text)
+                    viewCard
+                    props
+            ]
+        ]
     ]
-
 
 let food name calories fat carbs protein =
     { name = name
@@ -445,7 +478,7 @@ let withStyles<'a> = Mui.withStyles (StyleType.Func styles) []
 
 type RootComponent(p) =
     inherit PureComponent<RootProps,unit>(p)
-    let ws = from (rootView |> withStyles)
+    let ws = R.from (rootView |> withStyles)
     override this.render() =
         ws this.props []
 
@@ -453,7 +486,7 @@ let view model dispatch =
     let props = createEmpty<RootProps>
     props.dispatch <- dispatch
     props.model <- model
-    ofType<RootComponent, _, _> props []
+    R.ofType<RootComponent, _, _> props []
 
 open Elmish
 open Elmish.React
