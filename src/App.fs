@@ -1,14 +1,12 @@
 module App
 
-open Fable.Helpers.MaterialUI
-open Fable.MaterialUI.Props
-open Fable.Import
-open Fable.Import.React
-open Fable.MaterialUI.Themes
-open Fable.Core.JsInterop
 open Fable.Core
-open Fable.Helpers.React.Props
+open Fable.Core.JsInterop
 open Fable.Import.React
+open Fable.Helpers.MaterialUI
+open Fable.MaterialUI.Themes
+open Fable.MaterialUI.Props
+open Fable.Helpers.React.Props
 
 importSideEffects "./App.css"
 

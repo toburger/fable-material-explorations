@@ -1,6 +1,5 @@
 module TableView
 
-// open Fable.Import.React
 open Fable.MaterialUI.Props
 open Fable.Import.React
 open Fable.Core.JsInterop

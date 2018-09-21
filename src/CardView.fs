@@ -1,8 +1,6 @@
 module CardView
 
-open Fable.Core
 open Fable.Core.JsInterop
-open Fable.Helpers.MaterialUI
 open Fable.MaterialUI.Props
 open Fable.Helpers.React.Props
 

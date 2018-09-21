@@ -1,9 +1,7 @@
 module AppBarView
 
-open Fable.Core
 open Fable.Core.JsInterop
 open Fable.Helpers.React.Props
-open Fable.Helpers.MaterialUI
 open Fable.MaterialUI.Props
 
 module Mui = Fable.Helpers.MaterialUI
