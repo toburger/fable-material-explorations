@@ -10,6 +10,7 @@
     <Compile Include="CardView.fs" />
     <Compile Include="ExpansionPanelView.fs" />
     <Compile Include="Styles.fs" />
+    <Compile Include="View.fs" />
     <Compile Include="App.fs" />
   </ItemGroup>
   <Import Project="..\.paket\Paket.Restore.targets" />
