@@ -95,7 +95,7 @@ let rootView (props: RootProps) =
         AppBarView.view props
         swipeableViews [
             Axis AxisType.X
-            Index props.model.activeView.index
+            Index (int props.model.activeView)
         ] [
             tabContainer [
                 Elmish.React.Common.lazyView3
@@ -138,7 +138,7 @@ let foods = [
 ]
 
 let init () =
-    { activeView = ExpansionView
+    { activeView = View.ExpansionView
       expanded = false
       showMedia = true
       text = ""

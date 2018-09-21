@@ -9,20 +9,9 @@ type Food =
       protein: float }
 
 type View =
-    | TableView
-    | CardView
-    | ExpansionView
-    member self.index =
-        match self with
-        | TableView -> 0
-        | CardView -> 1
-        | ExpansionView -> 2
-    static member getByIndex(idx) =
-        match idx with
-        | 0 -> TableView
-        | 1 -> CardView
-        | 2 -> ExpansionView
-        | _ -> failwithf "unknown view index %i" idx
+    | TableView = 0
+    | CardView = 1
+    | ExpansionView = 2
 
 [<RequireQualifiedAccess>]
 type ExpandedPanel =

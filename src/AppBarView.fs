@@ -22,9 +22,9 @@ let view (props: RootProps) =
             Mui.tabs [
                 TabsProp.Centered true
                 TabsProp.OnChange (fun _ idx ->
-                    props.dispatch (SetActiveView (View.getByIndex idx)))
+                    props.dispatch (SetActiveView (enum idx)))
                 Class !!classes?flex
-                MaterialProp.Value props.model.activeView.index
+                MaterialProp.Value (int props.model.activeView)
             ] [
                 Mui.tab [ MaterialProp.Label (node (R.str "Table")) ]
                 Mui.tab [ MaterialProp.Label (node (R.str "Card")) ]
