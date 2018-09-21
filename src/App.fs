@@ -116,46 +116,10 @@ let rootView (props: RootProps) =
                     props
             ]
             tabContainer [
-                R.div [ Style [ Width "100%" ] ] [
-                    Mui.expansionPanel [] [
-                        Mui.expansionPanelSummary [] [
-                            Mui.typography [] [
-                                R.str "Expansion Panel 1"
-                            ]
-                        ]
-                        Mui.expansionPanelDetails [] [
-                            Mui.typography [] [
-                                R.str """Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-    sit amet blandit leo lobortis eget."""
-                            ]
-                        ]
-                    ]
-                    Mui.expansionPanel [] [
-                        Mui.expansionPanelSummary [] [
-                            Mui.typography [] [
-                                R.str "Expansion Panel 2"
-                            ]
-                        ]
-                        Mui.expansionPanelDetails [] [
-                            Mui.typography [] [
-                                R.str """Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-    sit amet blandit leo lobortis eget."""
-                            ]
-                        ]
-                    ]
-                    Mui.expansionPanel [ HTMLAttr.Disabled true ] [
-                        Mui.expansionPanelSummary [] [
-                            Mui.typography [] [
-                                R.str "Disabled Panel 3"
-                            ]
-                        ]
-                        Mui.expansionPanelDetails [] [
-                            Mui.typography [] [
-                                R.str """"""
-                            ]
-                        ]
-                    ]
-                ]
+                Elmish.React.Common.lazyView2
+                    ExpansionPanelView.view
+                    props.model.expandedPanel
+                    props.dispatch
             ]
         ]
     ]
@@ -181,7 +145,8 @@ let init () =
       showMedia = true
       text = ""
       foods = List.indexed (List.collect id (List.replicate 20 foods))
-      selectedFoods = Set.empty }
+      selectedFoods = Set.empty
+      expandedPanel = ExpandedPanel.Panel1 }
 
 let update msg model =
     match msg with
@@ -207,6 +172,9 @@ let update msg model =
                     Set.empty
                 else
                     model.foods |> List.map fst |> set }
+    | ChangeExpandedPanel panel ->
+        { model with
+            expandedPanel = panel }
 
 let withStyles<'a> = Mui.withStyles (StyleType.Func styles) []
 

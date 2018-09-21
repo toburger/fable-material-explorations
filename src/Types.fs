@@ -24,13 +24,20 @@ type View =
         | 2 -> ExpansionView
         | _ -> failwithf "unknown view index %i" idx
 
+[<RequireQualifiedAccess>]
+type ExpandedPanel =
+    | Panel1
+    | Panel2
+    | Panel3
+
 type Model =
     { activeView: View
       expanded: bool
       showMedia: bool
       text: string
       foods: (int * Food) list
-      selectedFoods: Set<int> }
+      selectedFoods: Set<int>
+      expandedPanel: ExpandedPanel }
     member self.allFoodsSelected =
         let foods = self.foods |> List.map fst |> set
         self.selectedFoods.Count = foods.Count &&
@@ -44,6 +51,7 @@ type Msg =
     | TextInput of string
     | SelectFood of int
     | SelectAllFoods
+    | ChangeExpandedPanel of ExpandedPanel
 
 type RootProps =
     abstract member model: Model with get, set
