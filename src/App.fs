@@ -138,7 +138,7 @@ let foods = [
 ]
 
 let init () =
-    { activeView = View.ExpansionView
+    { activeView = SelectedView.ExpansionView
       expanded = false
       showMedia = true
       text = ""

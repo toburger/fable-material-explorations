@@ -8,7 +8,7 @@ type Food =
       carbs: float
       protein: float }
 
-type View =
+type SelectedView =
     | TableView = 0
     | CardView = 1
     | ExpansionView = 2
@@ -20,7 +20,7 @@ type ExpandedPanel =
     | Panel3
 
 type Model =
-    { activeView: View
+    { activeView: SelectedView
       expanded: bool
       showMedia: bool
       text: string
@@ -34,7 +34,7 @@ type Model =
         Set.isSubset foods self.selectedFoods
 
 type Msg =
-    | SetActiveView of View
+    | SetActiveView of SelectedView
     | ToggleExpansion
     | ToggleMedia
     | TextInput of string
