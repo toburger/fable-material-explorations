@@ -5,10 +5,10 @@
   <ItemGroup>
     <Compile Include="Types.fs" />
     <Compile Include="Utils.fs" />
-    <Compile Include="AppBarView.fs" />
-    <Compile Include="TableView.fs" />
-    <Compile Include="CardView.fs" />
-    <Compile Include="ExpansionPanelView.fs" />
+    <Compile Include="Views/AppBarView.fs" />
+    <Compile Include="Views/TableView.fs" />
+    <Compile Include="Views/CardView.fs" />
+    <Compile Include="Views/ExpansionPanelView.fs" />
     <Compile Include="Styles.fs" />
     <Compile Include="View.fs" />
     <Compile Include="App.fs" />
