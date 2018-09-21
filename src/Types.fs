@@ -27,7 +27,9 @@ type Model =
       text: string
       foods: (int * Food) list
       selectedFoods: Set<int>
-      expandedPanel: ExpandedPanel option }
+      expandedPanel: ExpandedPanel option
+      timerEnabled: bool }
+
     member self.allFoodsSelected =
         let foods = self.foods |> List.map fst |> set
         self.selectedFoods.Count = foods.Count &&
@@ -42,6 +44,8 @@ type Msg =
     | SelectFood of int
     | SelectAllFoods
     | ChangeExpandedPanel of ExpandedPanel option
+    | EnableTimer of bool
+    | Tick of System.DateTime
 
 type RootProps =
     abstract member model: Model with get, set

@@ -46,9 +46,10 @@ let rootView (props: RootProps) =
                     props
             ]
             tabContainer [
-                Elmish.React.Common.lazyView2
+                Elmish.React.Common.lazyView3
                     ExpansionPanelView.view
                     props.model.expandedPanel
+                    props.model.timerEnabled
                     props.dispatch
             ]
         ]

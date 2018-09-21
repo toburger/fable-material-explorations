@@ -1,7 +1,8 @@
 module ExpansionPanelView
 
-open Fable.Helpers.React.Props
+open Fable.Core.JsInterop
 open Fable.MaterialUI.Props
+open Fable.Helpers.React.Props
 
 module Mui = Fable.Helpers.MaterialUI
 module R = Fable.Helpers.React
@@ -11,8 +12,16 @@ let changeExpansion panel dispatch =
         let panel = if expanded then Some panel else None
         dispatch (ChangeExpandedPanel panel))
 
-let view expanded dispatch =
+let view expanded timerEnabled dispatch =
     R.div [ Style [ Width "100%" ] ] [
+        Mui.formControlLabel [
+            MaterialProp.Label (node (R.str "Enable timer"))
+            FormControlLabelProp.Control
+                (Mui.checkbox [
+                    Checked timerEnabled
+                    OnChange (fun e -> dispatch (EnableTimer (!!e.target?``checked``)))
+                 ])
+        ] []
         Mui.expansionPanel [
             ExpansionPanelProp.Expanded (expanded = Some ExpandedPanel.Panel1)
             (changeExpansion ExpandedPanel.Panel1 dispatch)

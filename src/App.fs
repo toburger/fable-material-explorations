@@ -28,37 +28,74 @@ let init () =
       text = ""
       foods = List.indexed (List.collect id (List.replicate 20 foods))
       selectedFoods = Set.empty
-      expandedPanel = None }
+      expandedPanel = None
+      timerEnabled = false },
+    Cmd.none
 
 let update msg model =
     match msg with
     | SetActiveView view ->
-        { model with activeView = view }
+        { model with activeView = view },
+        Cmd.none
     | ToggleExpansion ->
-        { model with expanded = not model.expanded }
+        { model with expanded = not model.expanded },
+        Cmd.none
     | TextInput text ->
-        { model with text = text }
+        { model with text = text },
+        Cmd.none
     | ToggleMedia ->
-        { model with showMedia = not model.showMedia }
+        { model with showMedia = not model.showMedia },
+        Cmd.none
     | SelectFood id ->
         { model with
             selectedFoods =
                 if model.selectedFoods.Contains id then
                     Set.remove id model.selectedFoods
                 else
-                    Set.add id model.selectedFoods }
+                    Set.add id model.selectedFoods },
+        Cmd.none
     | SelectAllFoods ->
         { model with
             selectedFoods =
                 if model.allFoodsSelected then
                     Set.empty
                 else
-                    model.foods |> List.map fst |> set }
+                    model.foods |> List.map fst |> set },
+        Cmd.none
     | ChangeExpandedPanel panel ->
         { model with
-            expandedPanel = panel }
+            expandedPanel = panel },
+        Cmd.none
+    | EnableTimer enabled ->
+        { model with
+            timerEnabled = enabled },
+        Cmd.none
+    | Tick _ ->
+        if model.timerEnabled then
+            let rnd = System.Random()
+            let expandedPanel =
+                match rnd.Next(0, 5) with
+                | 1 -> Some ExpandedPanel.Panel1
+                | 2 -> Some ExpandedPanel.Panel2
+                | 3 -> Some ExpandedPanel.Panel3
+                | 4 -> Some ExpandedPanel.Panel4
+                | _ -> None
+            { model with
+                expandedPanel = expandedPanel },
+            Cmd.none
+        else
+            model, Cmd.none
 
-Program.mkSimple init update View.view
+let timerTick dispatch =
+    Fable.Import.Browser.window.setInterval(fun _ -> 
+        dispatch (Tick System.DateTime.Now)
+    , 500) |> ignore
+
+let subscription _ =
+    Cmd.ofSub timerTick
+
+Program.mkProgram init update View.view
+|> Program.withSubscription subscription
 |> Program.withReact "app"
 |> Program.withConsoleTrace
 |> Program.run
