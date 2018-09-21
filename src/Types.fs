@@ -18,6 +18,7 @@ type ExpandedPanel =
     | Panel1
     | Panel2
     | Panel3
+    | Panel4
 
 type Model =
     { activeView: SelectedView

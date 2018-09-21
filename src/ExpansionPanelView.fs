@@ -17,7 +17,9 @@ let view expanded dispatch =
             ExpansionPanelProp.Expanded (expanded = Some ExpandedPanel.Panel1)
             (changeExpansion ExpandedPanel.Panel1 dispatch)
         ] [
-            Mui.expansionPanelSummary [] [
+            Mui.expansionPanelSummary [
+                ExpansionPanelSummaryProp.ExpandIcon (node Icons.expandMoreIcon)
+            ] [
                 Mui.typography [] [
                     R.str "Expansion Panel 1"
                 ]
@@ -33,7 +35,9 @@ sit amet blandit leo lobortis eget."""
             ExpansionPanelProp.Expanded (expanded = Some ExpandedPanel.Panel2)
             (changeExpansion ExpandedPanel.Panel2 dispatch)
         ] [
-            Mui.expansionPanelSummary [] [
+            Mui.expansionPanelSummary [
+                ExpansionPanelSummaryProp.ExpandIcon (node Icons.expandMoreIcon)
+            ] [
                 Mui.typography [] [
                     R.str "Expansion Panel 2"
                 ]
@@ -48,16 +52,36 @@ sit amet blandit leo lobortis eget."""
         Mui.expansionPanel [
             ExpansionPanelProp.Expanded (expanded = Some ExpandedPanel.Panel3)
             (changeExpansion ExpandedPanel.Panel3 dispatch)
-            HTMLAttr.Disabled true
          ] [
-            Mui.expansionPanelSummary [] [
+            Mui.expansionPanelSummary [
+                ExpansionPanelSummaryProp.ExpandIcon (node Icons.expandMoreIcon)
+            ] [
                 Mui.typography [] [
-                    R.str "Disabled Panel 3"
+                    R.str "Expansion Panel 3"
                 ]
             ]
             Mui.expansionPanelDetails [] [
                 Mui.typography [] [
-                    R.str """"""
+                    R.str """Nunc vitae orci ultricies, auctor nunc in, volutpat nisl. Integer sit amet egestas
+eros, vitae egestas augue. Duis vel est augue."""
+                ]
+            ]
+        ]
+        Mui.expansionPanel [
+            ExpansionPanelProp.Expanded (expanded = Some ExpandedPanel.Panel4)
+            (changeExpansion ExpandedPanel.Panel4 dispatch)
+         ] [
+            Mui.expansionPanelSummary [
+                ExpansionPanelSummaryProp.ExpandIcon (node Icons.expandMoreIcon)
+            ] [
+                Mui.typography [] [
+                    R.str "Expansion Panel 4"
+                ]
+            ]
+            Mui.expansionPanelDetails [] [
+                Mui.typography [] [
+                R.str """Nunc vitae orci ultricies, auctor nunc in, volutpat nisl. Integer sit amet egestas
+eros, vitae egestas augue. Duis vel est augue."""
                 ]
             ]
         ]
