@@ -80,7 +80,7 @@ eros, vitae egestas augue. Duis vel est augue."""
             ]
             Mui.expansionPanelDetails [] [
                 Mui.typography [] [
-                R.str """Nunc vitae orci ultricies, auctor nunc in, volutpat nisl. Integer sit amet egestas
+                    R.str """Nunc vitae orci ultricies, auctor nunc in, volutpat nisl. Integer sit amet egestas
 eros, vitae egestas augue. Duis vel est augue."""
                 ]
             ]
