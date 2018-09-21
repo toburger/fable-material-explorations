@@ -8,13 +8,13 @@ module R = Fable.Helpers.React
 
 let changeExpansion panel dispatch =
     ExpansionPanelProp.OnChange (fun _ expanded ->
-        if expanded then
-            dispatch (ChangeExpandedPanel panel))
+        let panel = if expanded then Some panel else None
+        dispatch (ChangeExpandedPanel panel))
 
 let view expanded dispatch =
     R.div [ Style [ Width "100%" ] ] [
         Mui.expansionPanel [
-            ExpansionPanelProp.Expanded (expanded = ExpandedPanel.Panel1)
+            ExpansionPanelProp.Expanded (expanded = Some ExpandedPanel.Panel1)
             (changeExpansion ExpandedPanel.Panel1 dispatch)
         ] [
             Mui.expansionPanelSummary [] [
@@ -30,7 +30,7 @@ sit amet blandit leo lobortis eget."""
             ]
         ]
         Mui.expansionPanel [
-            ExpansionPanelProp.Expanded (expanded = ExpandedPanel.Panel2)
+            ExpansionPanelProp.Expanded (expanded = Some ExpandedPanel.Panel2)
             (changeExpansion ExpandedPanel.Panel2 dispatch)
         ] [
             Mui.expansionPanelSummary [] [
@@ -46,7 +46,7 @@ sit amet blandit leo lobortis eget."""
             ]
         ]
         Mui.expansionPanel [
-            ExpansionPanelProp.Expanded (expanded = ExpandedPanel.Panel3)
+            ExpansionPanelProp.Expanded (expanded = Some ExpandedPanel.Panel3)
             (changeExpansion ExpandedPanel.Panel3 dispatch)
             HTMLAttr.Disabled true
          ] [

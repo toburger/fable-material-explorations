@@ -144,7 +144,7 @@ let init () =
       text = ""
       foods = List.indexed (List.collect id (List.replicate 20 foods))
       selectedFoods = Set.empty
-      expandedPanel = ExpandedPanel.Panel1 }
+      expandedPanel = None }
 
 let update msg model =
     match msg with

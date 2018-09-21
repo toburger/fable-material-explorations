@@ -26,7 +26,7 @@ type Model =
       text: string
       foods: (int * Food) list
       selectedFoods: Set<int>
-      expandedPanel: ExpandedPanel }
+      expandedPanel: ExpandedPanel option }
     member self.allFoodsSelected =
         let foods = self.foods |> List.map fst |> set
         self.selectedFoods.Count = foods.Count &&
@@ -40,7 +40,7 @@ type Msg =
     | TextInput of string
     | SelectFood of int
     | SelectAllFoods
-    | ChangeExpandedPanel of ExpandedPanel
+    | ChangeExpandedPanel of ExpandedPanel option
 
 type RootProps =
     abstract member model: Model with get, set
