@@ -227,9 +227,8 @@ minutes more. (Discard any mussels that don’t open.)""")
                         OnInput (fun e -> props.dispatch (TextInput (string e.target?value)))
                         TextFieldProp.Variant TextFieldVariant.Standard
                         TextFieldProp.Select false
-                    ] [
-                        R.str props.model.text
-                    ]
+                        Value props.model.text
+                    ] []
                 ]
                 // Mui.button [
                 //     ButtonProp.Variant ButtonVariant.Contained
@@ -237,6 +236,12 @@ minutes more. (Discard any mussels that don’t open.)""")
             ]
         ]
     ]
+
+let tabContainer children =
+    Mui.typography [
+        MaterialProp.Component (ReactType.Case1 "div")
+        Style [ Padding (8*3) ]
+    ] children
 
 let viewAppBar (props: RootProps) =
     let classes = props?classes
@@ -247,7 +252,7 @@ let viewAppBar (props: RootProps) =
     ] [
         Mui.toolbar [] [
             Mui.typography [
-                Class !!classes?flex
+                // Class !!classes?flex
                 TypographyProp.Variant TypographyVariant.Title
                 MaterialProp.Color ComponentColor.Inherit
             ] [ R.str "App" ]
@@ -255,9 +260,13 @@ let viewAppBar (props: RootProps) =
                 TabsProp.Centered true
                 // TabsProp.OnChange (fun e ->
                 OnChange (fun e ->
-                    let idx = 0
-                    printfn "idx: %A" e.target?value
-                    Browser.console.log(e)
+                    // let idx = 0
+                    // printfn "idx: %A" e.target?value
+                    // Browser.console.log(e)
+                    let idx =
+                        match props.model.activeView with
+                        | TableView -> CardView.index
+                        | CardView -> TableView.index
                     props.dispatch (SetActiveView (View.getByIndex idx)))
                 Class !!classes?flex
                 MaterialProp.Value props.model.activeView.index
@@ -265,10 +274,7 @@ let viewAppBar (props: RootProps) =
                 Mui.tab [ MaterialProp.Label (node (R.str "Table")) ]
                 Mui.tab [ MaterialProp.Label (node (R.str "Card")) ]
             ]
-            R.div [
-                Class !!classes?flex
-                Style [ TextAlign "right" ]
-            ] [
+            R.div [] [
                 Mui.button [
                     MaterialProp.Color ComponentColor.Inherit
                 ] [ R.str "Login" ]
@@ -372,19 +378,18 @@ let rootView (props: RootProps) =
         viewAppBar props
         (match props.model.activeView with
          | TableView ->
-            Elmish.React.Common.lazyView3
-                (viewTable classes props.model.allFoodsSelected)
-                props.model.selectedFoods
-                props.model.foods
-                props.dispatch
+            tabContainer [
+                viewTable
+                    classes
+                    props.model.allFoodsSelected
+                    props.model.selectedFoods
+                    props.model.foods
+                    props.dispatch
+            ]
          | CardView ->
-            Elmish.React.Common.lazyViewWith
-                (fun (a: RootProps) b ->
-                    a.model.expanded = b.model.expanded &&
-                    a.model.showMedia = b.model.showMedia &&
-                    a.model.text = b.model.text)
-                viewCard
-                props)
+            tabContainer [
+                viewCard props
+            ])
     ]
 
 
@@ -408,7 +413,7 @@ let init () =
       expanded = false
       showMedia = true
       text = ""
-      foods = List.indexed foods
+      foods = List.indexed (List.collect id (List.replicate 20 foods))
       selectedFoods = Set.empty }
 
 let update msg model =
