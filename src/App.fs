@@ -251,9 +251,6 @@ minutes more. (Discard any mussels that don’t open.)""")
                         Value props.model.text
                     ] []
                 ]
-                // Mui.button [
-                //     ButtonProp.Variant ButtonVariant.Contained
-                // ] [ R.str "Hello world!" ]
             ]
         ]
     ]
@@ -279,21 +276,12 @@ let viewAppBar (props: RootProps) =
     ] [
         Mui.toolbar [] [
             Mui.typography [
-                // Class !!classes?flex
                 TypographyProp.Variant TypographyVariant.Title
                 MaterialProp.Color ComponentColor.Inherit
             ] [ R.str "App" ]
             Mui.tabs [
                 TabsProp.Centered true
-                // TabsProp.OnChange (fun e ->
-                OnChange (fun e ->
-                    // let idx = 0
-                    // printfn "idx: %A" e.target?value
-                    // Browser.console.log(e)
-                    let idx =
-                        match props.model.activeView with
-                        | TableView -> CardView.index
-                        | CardView -> TableView.index
+                TabsProp.OnChange (fun _ idx ->
                     props.dispatch (SetActiveView (View.getByIndex idx)))
                 Class !!classes?flex
                 MaterialProp.Value props.model.activeView.index
@@ -319,7 +307,7 @@ let cellWithTooltip props content =
         ] [
             Mui.tableSortLabel [
                 MaterialProp.Active false
-                // TableSortLabelProp.Direction TableSortDirection.Asc
+                TableSortLabelProp.Direction TableSortDirection.Asc
             ] content
         ]
     ]
