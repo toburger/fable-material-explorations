@@ -27,6 +27,7 @@ let init () =
       showMedia = true
       text = ""
       foods = List.indexed (List.collect id (List.replicate 20 foods))
+    //   foods = List.indexed foods
       selectedFoods = Set.empty
       expandedPanel = None
       timerEnabled = false },
@@ -80,11 +81,24 @@ let update msg model =
                 | 3 -> Some ExpandedPanel.Panel3
                 | 4 -> Some ExpandedPanel.Panel4
                 | _ -> None
+            let randomFoodIdx =
+                let foods =
+                    model.foods
+                    |> List.map fst
+                    |> List.toArray
+                foods.[rnd.Next(0, foods.Length)]
+            let selectedFoods =
+                if model.selectedFoods.Contains randomFoodIdx then
+                    model.selectedFoods.Remove randomFoodIdx
+                else
+                    model.selectedFoods.Add randomFoodIdx
             { model with
+                selectedFoods = selectedFoods
                 expandedPanel = expandedPanel },
             Cmd.none
         else
-            model, Cmd.none
+            model,
+            Cmd.none
 
 let timerTick dispatch =
     Fable.Import.Browser.window.setInterval(fun _ -> 
@@ -97,5 +111,5 @@ let subscription _ =
 Program.mkProgram init update View.view
 |> Program.withSubscription subscription
 |> Program.withReact "app"
-|> Program.withConsoleTrace
+// |> Program.withConsoleTrace
 |> Program.run

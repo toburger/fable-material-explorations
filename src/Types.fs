@@ -31,10 +31,14 @@ type Model =
       timerEnabled: bool }
 
     member self.allFoodsSelected =
-        let foods = self.foods |> List.map fst |> set
-        self.selectedFoods.Count = foods.Count &&
-        Set.isSubset self.selectedFoods foods &&
-        Set.isSubset foods self.selectedFoods
+        if self.selectedFoods.Count = self.foods.Length then
+            self.foods
+            |> List.map fst
+            |> set
+            |> Set.difference self.selectedFoods
+            |> Set.isEmpty
+        else
+            false
 
 type Msg =
     | SetActiveView of SelectedView

@@ -13,7 +13,7 @@ let changeExpansion panel dispatch =
         dispatch (ChangeExpandedPanel panel))
 
 let view expanded timerEnabled dispatch =
-    R.div [ Style [ Width "100%" ] ] [
+    R.div [] [
         Mui.formControlLabel [
             MaterialProp.Label (node (R.str "Enable timer"))
             FormControlLabelProp.Control

@@ -62,7 +62,7 @@ let view classes allFoodsSelected selectedFoods foods dispatch =
                     cellWithTooltip [ TableCellProp.Numeric true ] [ R.str "Protein (g)" ]
                 ]
             ]
-            (if List.length foods > 0 then
+            (if not (List.isEmpty foods) then
                 Mui.tableBody [] [
                     for (id, food) in foods ->
                         Mui.tableRow [ Key (string id) ] [
