@@ -11,7 +11,7 @@ module Mui = Fable.Helpers.MaterialUI
 
 let tabContainer children =
     Mui.typography [
-        MaterialProp.Component (ReactType.Case1 "div")
+        MaterialProp.Component !^"div"
         Style [
             Padding (8*3)
             AlignItems "center"

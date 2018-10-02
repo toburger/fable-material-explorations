@@ -9,7 +9,7 @@ open Fable.Helpers.MaterialUI
 let toObj = keyValueList CaseRules.LowerFirst
 
 let styles (theme: ITheme): IStyles list =
-    let smBreakpoint = theme.breakpoints.up(U2.Case1 MaterialSize.Sm)
+    let smBreakpoint = theme.breakpoints.up(!^MaterialSize.Sm)
     [
         Styles.Root [
             Display "flex"

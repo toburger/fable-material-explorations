@@ -61,7 +61,7 @@ guests. Add 1 cup of frozen peas along with the mussels, if you like."""
             ] [ Icons.expandMoreIcon ]
         ]
         Mui.collapse [
-            Timeout (AutoTransitionDuration.Case3 AutoEnum.Auto)
+            Timeout !^AutoEnum.Auto
             MaterialProp.In props.model.expanded
         ] [
             Mui.cardContent [] [

@@ -76,7 +76,7 @@ let view classes allFoodsSelected selectedFoods foods dispatch =
                                 ]
                             ]
                             Mui.tableCell [
-                                MaterialProp.Component (ReactType.Case1 "th")
+                                MaterialProp.Component !^"th"
                                 Scope "row"
                             ] [ R.str food.name ]
                             Mui.tableCell [
